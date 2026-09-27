@@ -21,7 +21,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 1080px; height: 1920px; background: var(--noir); overflow: hidden; }
   body { font-family: 'Inter', sans-serif; color: var(--noir); }
-  .t, .totals, .val, .frow, .rec, .q, .pdf .tt, #end .price { font-feature-settings: 'tnum' 1; }
+  .t, .totals, .val, .frow, .rec, .q, .pdf .tt { font-feature-settings: 'tnum' 1; }
 
   #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden;
     background: radial-gradient(900px 900px at 50% 62%, rgba(255,196,0,0.16), rgba(255,196,0,0) 70%), var(--noir); }
@@ -29,7 +29,7 @@
   /* ---------- Accroche plein écran ---------- */
   #hook { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
     align-items: center; gap: 28px; padding: 0 80px; }
-  #hook .l { font-weight: 900; font-size: 118px; line-height: 1; color: #fff; letter-spacing: -3px; text-align: center; }
+  #hook .l { font-weight: 900; font-size: 108px; white-space: nowrap; line-height: 1; color: #fff; letter-spacing: -3px; text-align: center; }
   #hook .l.y { color: var(--jaune); }
 
   /* ---------- Sous-titres façon Reels ---------- */
@@ -81,7 +81,7 @@
   .chips { display: flex; gap: 14px; margin-top: 22px; }
   .chip { position: relative; font-size: 30px; font-weight: 800; background: #E6E8EC; border-radius: 16px; padding: 10px 20px;
     display: flex; align-items: center; gap: 8px; }
-  .chip .hl { position: absolute; inset: -9px; border: 6px solid var(--jaune); border-radius: 22px; }
+  .chip .hl { opacity: 0; position: absolute; inset: -9px; border: 6px solid var(--jaune); border-radius: 22px; }
   .lines { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
   .line { background: #fff; border-radius: 24px; padding: 20px 26px; box-shadow: 0 4px 16px rgba(17,19,23,0.06); }
   .line .d { font-size: 32px; font-weight: 800; line-height: 1.15; }
@@ -128,11 +128,12 @@
     padding: 0 90px; }
   #end .logo { width: 120px; height: 120px; border-radius: 34px; background: var(--noir); }
   #end .brand { font-size: 112px; font-weight: 900; letter-spacing: -4px; line-height: 1; margin-top: 40px; }
-  #end .pitch { font-size: 54px; font-weight: 800; line-height: 1.18; letter-spacing: -1px; margin-top: 40px; }
-  #end .price { display: inline-block; margin-top: 50px; background: var(--noir); color: #fff; font-size: 42px; font-weight: 800;
-    border-radius: 20px; padding: 18px 28px; align-self: flex-start; }
-  #end .price b { color: var(--jaune); font-weight: 900; }
-  #end .cta { font-size: 44px; font-weight: 800; margin-top: 44px; }
+  #end .pitch { font-size: 60px; font-weight: 800; line-height: 1.18; letter-spacing: -1px; margin-top: 40px; }
+  #end .price { margin-top: 70px; background: var(--noir); color: #fff; font-size: 44px; font-weight: 700;
+    border-radius: 26px; padding: 26px 34px 30px; align-self: stretch; line-height: 1.25; }
+  #end .price b { display: block; color: var(--jaune); font-weight: 900; font-size: 66px; letter-spacing: -1.5px; }
+  #end .cta { font-size: 44px; font-weight: 700; margin-top: 40px; line-height: 1.25; }
+  #end .cta b { display: block; font-size: 84px; font-weight: 900; letter-spacing: -2px; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -214,33 +215,37 @@
     <div class="l" id="h1">Le devis,</div>
     <div class="l" id="h2">vous le tapez</div>
     <div class="l y" id="h3">encore le soir ?</div>
+    <div class="l y" id="h4">Ou même<br>le week-end ?</div>
   </div>
 
   <div id="end">
     <div class="logo" style="display:flex;align-items:center;justify-content:center"><svg width="66" height="66" viewBox="0 0 24 24" fill="none" stroke="#FFC400" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></div>
     <div class="brand" id="eBrand">Devis Vocal NC</div>
-    <div class="pitch" id="ePitch">Dictez votre devis sur le chantier. La TGC, les francs CFP et les communes d'ici compris.</div>
-    <div class="price" id="ePrice"><b>5 500 F</b>/mois ou <b>55 000 F</b>/an</div>
-    <div class="cta" id="eCta">Écrivez-nous en message privé.</div>
+    <div class="pitch" id="ePitch">Dictez votre devis sur le chantier.</div>
+    <div class="price" id="ePrice">Inscrivez-vous sur<b id="eSite"></b></div>
+    <div class="cta" id="eCta">ou contactez-nous au<b>94 01 91</b></div>
   </div>
 </div>
 
 <script>
 /* ==================== Timeline (secondes) ==================== */
 const T = {
-  hookEnd: 2.6,
-  dictStart: 2.6, speakStart: 3.1, speakEnd: 7.7, dictEnd: 8.4,
-  devisIn: 8.4, capTgc: 11.2, envoiIn: 14.2, tapAt: 15.3, acceptAt: 16.7,
-  factIn: 18.4, endIn: 21.6, total: 25.0,
+  hookEnd: 3.2,
+  dictStart: 3.2, speakStart: 3.7, speakEnd: 8.1, dictEnd: 8.8,
+  devisIn: 8.8, capTgc: 11.6, envoiIn: 13.8, tapAt: 14.9, acceptAt: 16.3,
+  factIn: 18.0, endIn: 21.6, total: 25.0,
 };
 window.DURATION = T.total;
+// Adresse du site affichée sur le carton de fin (à confirmer par Cédric)
+const SITE = new URLSearchParams(location.search).get('site') || 'ADRESSE À CONFIRMER';
+document.getElementById('eSite').textContent = SITE;
 
 const CAPTIONS = [
-  { a: 2.6,  b: 8.4,  lines: ['Vous le dictez', '<b>sur le chantier.</b>'] },
-  { a: 8.4,  b: 11.2, lines: ['Le devis sort', '<b>chiffré.</b>'] },
-  { a: 11.2, b: 14.2, lines: ['La TGC, les francs CFP', "et les communes d'ici", '<b>compris.</b>'] },
-  { a: 14.2, b: 18.4, lines: ['PDF prêt à envoyer.', 'Le client signe', '<b>à distance.</b>'] },
-  { a: 18.4, b: 21.6, lines: ['Ensuite, facture', 'et encaissement', '<b>suivis.</b>'] },
+  { a: T.dictStart, b: T.devisIn,  lines: ['Vous le dictez', '<b>sur le chantier.</b>'] },
+  { a: T.devisIn,   b: T.capTgc,   lines: ['Le devis est écrit', '<b>avec vos prix.</b>'] },
+  { a: T.capTgc,    b: T.envoiIn,  lines: ['La TGC', '<b>comprise.</b>'] },
+  { a: T.envoiIn,   b: T.factIn,   lines: ['PDF prêt à envoyer.', 'Le client signe', '<b>à distance.</b>'] },
+  { a: T.factIn,    b: T.endIn,    lines: ['Ensuite, facture et', 'encaissement suivis', "<b>depuis l'application.</b>"] },
 ];
 
 const SPEECH = "Chantier à Païta. Dalle béton armé 15 cm, 45 m². Mur en agglos de 20, 30 m². Enduit de façade gratté, 60 m².";
@@ -296,7 +301,8 @@ window.render = function (t) {
     pop($('h1'), t, -0.1, 0.25, 40);
     pop($('h2'), t, 0.45, 0.25, 40);
     pop($('h3'), t, 1.0, 0.3, 40);
-    const punch = 1 + 0.04 * (1 - eOut(prog(t, 1.0, 1.4))) * (t >= 1.0 ? 1 : 0);
+    pop($('h4'), t, 1.9, 0.3, 40);
+    const punch = 1 + 0.04 * (1 - eOut(prog(t, 1.9, 2.3))) * (t >= 1.9 ? 1 : 0);
     hook.style.transform = `scale(${punch})`;
   }
 
@@ -338,7 +344,7 @@ window.render = function (t) {
   $('vHT').textContent = fmt(1287000 * cnt);
   $('vTGC').textContent = fmt(141570 * cnt);
   $('vTTC').textContent = fmt(1428570 * cnt);
-  [['chTgc', 0.2], ['chXpf', 0.6], ['chCommune', 1.0]].forEach(([id, d]) => {
+  [['chTgc', 0.2]].forEach(([id, d]) => {
     const hl = $(id).querySelector('.hl');
     const p = prog(t, T.capTgc + d, T.capTgc + d + 0.25);
     hl.style.opacity = p > 0 ? 1 : 0;

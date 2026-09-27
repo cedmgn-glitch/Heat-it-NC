@@ -3,6 +3,7 @@
 //   node render.mjs                       -> devis-vocal-nc-promo.mp4
 //   node render.mjs --stills 1,5,10,20    -> captures PNG aux instants donnés (contrôle)
 //   node render.mjs --voix voix-off.m4a   -> mixe une voix off enregistrée à part
+//   node render.mjs --site monsite.nc     -> adresse affichée sur le carton de fin
 // ffmpeg : variable FFMPEG, sinon `ffmpeg` du PATH, sinon celui de imageio-ffmpeg (pip install imageio-ffmpeg).
 import { chromium } from 'playwright';
 import { spawn, execSync } from 'node:child_process';
@@ -22,7 +23,9 @@ function ffmpegBin() {
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
-await page.goto(pathToFileURL(path.join(dir, 'promo.html')).href);
+const url = pathToFileURL(path.join(dir, 'promo.html'));
+if (opt('--site')) url.searchParams.set('site', opt('--site'));
+await page.goto(url.href);
 await page.evaluate(() => document.fonts.ready);
 const duration = await page.evaluate(() => window.DURATION);
 
