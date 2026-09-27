@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Promo Devis Vocal NC</title>
+<style>
+  @font-face { font-family: 'Inter'; font-weight: 400; src: url('node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-weight: 500; src: url('node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-weight: 600; src: url('node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-weight: 700; src: url('node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-weight: 800; src: url('node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-weight: 900; src: url('node_modules/@fontsource/inter/files/inter-latin-900-normal.woff2') format('woff2'); }
+
+  :root {
+    --jaune: #FFC400;
+    --noir: #111317;
+    --gris: #6B7280;
+    --clair: #F4F5F7;
+    --vert: #0F9D58;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; background: var(--noir); overflow: hidden; }
+  body { font-family: 'Inter', sans-serif; color: var(--noir); }
+  .t, .totals, .val, .frow, .rec, .q, .pdf .tt, #end .price { font-feature-settings: 'tnum' 1; }
+
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    background: radial-gradient(900px 900px at 50% 62%, rgba(255,196,0,0.16), rgba(255,196,0,0) 70%), var(--noir); }
+
+  /* ---------- Accroche plein écran ---------- */
+  #hook { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; gap: 28px; padding: 0 80px; }
+  #hook .l { font-weight: 900; font-size: 118px; line-height: 1; color: #fff; letter-spacing: -3px; text-align: center; }
+  #hook .l.y { color: var(--jaune); }
+
+  /* ---------- Sous-titres façon Reels ---------- */
+  #cap { position: absolute; left: 70px; right: 70px; top: 270px; height: 270px; display: flex;
+    flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+  #cap .ln { background: #fff; color: var(--noir); font-weight: 800; font-size: 60px; line-height: 1.12;
+    padding: 10px 26px 14px; border-radius: 20px; letter-spacing: -1px; text-align: center; }
+  #cap .ln b { background: var(--jaune); border-radius: 12px; padding: 0 12px; font-weight: 900; }
+
+  /* ---------- Téléphone ---------- */
+  #phone { position: absolute; left: 120px; top: 570px; width: 840px; height: 1560px; border-radius: 100px;
+    background: #1B1D22; padding: 18px; box-shadow: 0 40px 120px rgba(0,0,0,0.6), inset 0 0 0 3px #2c2f36; }
+  #screen { position: relative; width: 100%; height: 100%; border-radius: 84px; background: var(--clair); overflow: hidden; }
+  .status { height: 74px; display: flex; align-items: center; justify-content: space-between; padding: 14px 64px 0;
+    font-weight: 700; font-size: 30px; }
+  .status .ic { display: flex; gap: 10px; align-items: center; }
+  .status .bat { width: 50px; height: 24px; border: 3px solid var(--noir); border-radius: 7px; position: relative; }
+  .status .bat::after { content: ''; position: absolute; inset: 3px; right: 10px; background: var(--noir); border-radius: 2px; }
+  .status .sig { display: flex; gap: 4px; align-items: flex-end; height: 24px; }
+  .status .sig i { display: block; width: 6px; background: var(--noir); border-radius: 2px; }
+  .appbar { height: 96px; display: flex; align-items: center; gap: 18px; padding: 0 48px; }
+  .logo { width: 62px; height: 62px; border-radius: 18px; background: var(--jaune); display: flex; align-items: center; justify-content: center; }
+  .appbar .nm { font-weight: 900; font-size: 36px; letter-spacing: -0.5px; }
+  .appbar .nm span { color: var(--gris); font-weight: 700; }
+
+  .page { position: absolute; left: 0; right: 0; top: 170px; bottom: 0; padding: 20px 48px; }
+  h2 { font-size: 52px; font-weight: 900; letter-spacing: -1.5px; }
+  .sub { font-size: 30px; color: var(--gris); font-weight: 500; margin-top: 8px; }
+
+  /* Dictée */
+  .transcript { margin-top: 30px; background: #fff; border-radius: 30px; padding: 30px 34px; min-height: 380px;
+    font-size: 38px; line-height: 1.34; font-weight: 600; box-shadow: 0 6px 24px rgba(17,19,23,0.07); }
+  .transcript .cur { display: inline-block; width: 4px; height: 40px; background: var(--noir); vertical-align: -6px; margin-left: 4px; }
+  .wave { margin: 34px auto 0; height: 110px; width: 640px; display: flex; align-items: center; justify-content: space-between; }
+  .wave i { display: block; width: 14px; border-radius: 7px; background: var(--noir); }
+  .micwrap { position: relative; width: 180px; height: 180px; margin: 30px auto 0; }
+  .ring { position: absolute; inset: 0; border-radius: 50%; border: 6px solid var(--jaune); }
+  .mic { position: absolute; inset: 0; border-radius: 50%; background: var(--jaune); display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 30px rgba(255,196,0,0.45); }
+  .rec { text-align: center; margin-top: 22px; font-size: 30px; font-weight: 700; color: var(--noir); }
+  .rec .dot { display: inline-block; width: 18px; height: 18px; border-radius: 50%; background: #E53935; margin-right: 10px; vertical-align: 1px; }
+
+  /* Devis */
+  .row { display: flex; justify-content: space-between; align-items: center; }
+  .num { font-size: 30px; font-weight: 700; color: var(--gris); letter-spacing: 0.5px; }
+  .tag { font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--gris);
+    border: 3px solid #D5D8DE; border-radius: 12px; padding: 4px 12px; }
+  .obj { font-size: 42px; font-weight: 900; letter-spacing: -1px; margin-top: 10px; line-height: 1.1; }
+  .chips { display: flex; gap: 14px; margin-top: 22px; }
+  .chip { position: relative; font-size: 30px; font-weight: 800; background: #E6E8EC; border-radius: 16px; padding: 10px 20px;
+    display: flex; align-items: center; gap: 8px; }
+  .chip .hl { position: absolute; inset: -9px; border: 6px solid var(--jaune); border-radius: 22px; }
+  .lines { margin-top: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .line { background: #fff; border-radius: 24px; padding: 20px 26px; box-shadow: 0 4px 16px rgba(17,19,23,0.06); }
+  .line .d { font-size: 32px; font-weight: 800; line-height: 1.15; }
+  .line .m { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; }
+  .line .q { font-size: 28px; font-weight: 600; color: var(--gris); }
+  .line .t { font-size: 34px; font-weight: 900; }
+  .totals { margin-top: 20px; background: var(--noir); color: #fff; border-radius: 28px; padding: 24px 30px; }
+  .totals .r { display: flex; justify-content: space-between; font-size: 32px; font-weight: 600; padding: 5px 0; color: #C9CDD4; }
+  .totals .r.big { color: #fff; font-weight: 900; font-size: 46px; margin-top: 8px; padding-top: 14px; border-top: 2px solid #33363d; }
+  .totals .r.big span:last-child { color: var(--jaune); }
+
+  /* Envoi */
+  .steps { display: flex; gap: 12px; margin-top: 20px; }
+  .step { font-size: 28px; font-weight: 800; border-radius: 14px; padding: 8px 18px; background: #E6E8EC; color: #9AA0A9; }
+  .step.on { background: var(--noir); color: #fff; }
+  .step.ok { background: var(--vert); color: #fff; }
+  .pdf { position: relative; margin: 28px auto 0; width: 560px; height: 500px; background: #fff; border-radius: 12px;
+    box-shadow: 0 16px 50px rgba(17,19,23,0.16); padding: 34px 38px; }
+  .pdf .badge { position: absolute; top: -18px; right: -18px; background: #E53935; color: #fff; font-weight: 900; font-size: 28px;
+    border-radius: 14px; padding: 8px 16px; }
+  .pdf .h { font-size: 40px; font-weight: 900; letter-spacing: 1px; }
+  .pdf .s { font-size: 24px; color: var(--gris); font-weight: 600; margin-top: 6px; }
+  .pdf .bar { height: 16px; border-radius: 8px; background: #E6E8EC; margin-top: 22px; }
+  .pdf .tt { display: flex; justify-content: space-between; margin-top: 34px; padding-top: 18px; border-top: 3px solid var(--noir);
+    font-size: 28px; font-weight: 900; }
+  .btn { position: relative; margin-top: 34px; height: 112px; border-radius: 28px; background: var(--jaune); display: flex;
+    align-items: center; justify-content: center; gap: 16px; font-size: 38px; font-weight: 900; overflow: hidden; }
+  .tap { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: rgba(17,19,23,0.25); }
+  .signed { position: absolute; left: 48px; right: 48px; height: 112px; border-radius: 28px; background: var(--vert); color: #fff;
+    display: flex; align-items: center; justify-content: center; gap: 16px; font-size: 34px; font-weight: 800; }
+
+  /* Facture */
+  .fcard { margin-top: 30px; background: #fff; border-radius: 30px; padding: 32px 34px; box-shadow: 0 6px 24px rgba(17,19,23,0.07); }
+  .fcard .lbl { font-size: 30px; color: var(--gris); font-weight: 700; }
+  .fcard .val { font-size: 64px; font-weight: 900; letter-spacing: -1.5px; margin-top: 6px; }
+  .prog { height: 30px; border-radius: 15px; background: #E6E8EC; margin-top: 30px; overflow: hidden; }
+  .prog i { display: block; height: 100%; background: var(--vert); border-radius: 15px; }
+  .frow { display: flex; justify-content: space-between; font-size: 34px; font-weight: 800; margin-top: 24px; }
+  .frow .g { color: var(--vert); }
+  .state { display: inline-block; margin-top: 30px; font-size: 32px; font-weight: 900; border-radius: 16px; padding: 12px 24px; }
+
+  /* ---------- Carton de fin ---------- */
+  #end { position: absolute; inset: 0; background: var(--jaune); display: flex; flex-direction: column; justify-content: center;
+    padding: 0 90px; }
+  #end .logo { width: 120px; height: 120px; border-radius: 34px; background: var(--noir); }
+  #end .brand { font-size: 112px; font-weight: 900; letter-spacing: -4px; line-height: 1; margin-top: 40px; }
+  #end .pitch { font-size: 54px; font-weight: 800; line-height: 1.18; letter-spacing: -1px; margin-top: 40px; }
+  #end .price { display: inline-block; margin-top: 50px; background: var(--noir); color: #fff; font-size: 42px; font-weight: 800;
+    border-radius: 20px; padding: 18px 28px; align-self: flex-start; }
+  #end .price b { color: var(--jaune); font-weight: 900; }
+  #end .cta { font-size: 44px; font-weight: 800; margin-top: 44px; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div id="phone"><div id="screen">
+    <div class="status"><span>7:12</span>
+      <span class="ic"><span class="sig"><i style="height:8px"></i><i style="height:13px"></i><i style="height:18px"></i><i style="height:24px"></i></span><span class="bat"></span></span>
+    </div>
+    <div class="appbar">
+      <div class="logo"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#111317" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></div>
+      <div class="nm">Devis Vocal NC</div>
+    </div>
+
+    <section class="page" id="pDictee">
+      <h2>Nouveau devis</h2>
+      <div class="sub">Décrivez le chantier à voix haute.</div>
+      <div class="transcript"><span id="trText"></span><span class="cur" id="trCur"></span></div>
+      <div class="wave" id="wave"></div>
+      <div class="micwrap">
+        <div class="ring" id="ring1"></div><div class="ring" id="ring2"></div>
+        <div class="mic"><svg width="78" height="78" viewBox="0 0 24 24" fill="none" stroke="#111317" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></div>
+      </div>
+      <div class="rec" id="rec"><span class="dot"></span><span id="recT">0:00</span></div>
+    </section>
+
+    <section class="page" id="pDevis">
+      <div class="row"><span class="num">DEV-2026-001</span><span class="tag">Exemple</span></div>
+      <div class="obj">Dalle, mur et enduits extérieurs</div>
+      <div class="chips">
+        <div class="chip" id="chCommune"><svg width="26" height="26" viewBox="0 0 24 24" fill="#111317"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Païta<div class="hl"></div></div>
+        <div class="chip" id="chXpf">F CFP<div class="hl"></div></div>
+        <div class="chip" id="chTgc">TGC 11 %<div class="hl"></div></div>
+      </div>
+      <div class="lines">
+        <div class="line" id="l1"><div class="d">Dalle béton armé ép. 15 cm</div><div class="m"><span class="q">45 m² × 14 000 F</span><span class="t">630 000 F</span></div></div>
+        <div class="line" id="l2"><div class="d">Mur en agglos 20 × 20 × 40</div><div class="m"><span class="q">30 m² × 11 500 F</span><span class="t">345 000 F</span></div></div>
+        <div class="line" id="l3"><div class="d">Enduit de façade gratté</div><div class="m"><span class="q">60 m² × 5 200 F</span><span class="t">312 000 F</span></div></div>
+      </div>
+      <div class="totals" id="tot">
+        <div class="r"><span>Total HT</span><span id="vHT">0 F</span></div>
+        <div class="r"><span>TGC 11 %</span><span id="vTGC">0 F</span></div>
+        <div class="r big"><span>Total TTC</span><span id="vTTC">0 F</span></div>
+      </div>
+    </section>
+
+    <section class="page" id="pEnvoi">
+      <h2>Devis prêt</h2>
+      <div class="steps"><span class="step" id="s1">Brouillon</span><span class="step" id="s2">Envoyé</span><span class="step" id="s3">Accepté</span></div>
+      <div class="pdf" id="pdf">
+        <div class="badge">PDF</div>
+        <div class="h">DEVIS</div>
+        <div class="s">DEV-2026-001 · Païta</div>
+        <div class="bar" style="width:92%"></div><div class="bar" style="width:78%"></div><div class="bar" style="width:85%"></div>
+        <div class="bar" style="width:60%"></div><div class="bar" style="width:70%"></div>
+        <div class="tt"><span>Total TTC</span><span>1 428 570 F</span></div>
+      </div>
+      <div class="btn" id="btn"><svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#111317" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>Envoyer le devis<div class="tap" id="tap"></div></div>
+      <div class="signed" id="signed" style="top:0"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Devis signé à distance</div>
+    </section>
+
+    <section class="page" id="pFacture">
+      <h2>Facture FAC-2026-001</h2>
+      <div class="sub">Issue du devis DEV-2026-001 · Païta</div>
+      <div class="fcard">
+        <div class="lbl">Net à payer</div>
+        <div class="val">1 428 570 F</div>
+        <div class="prog"><i id="progBar" style="width:0%"></i></div>
+        <div class="frow"><span>Encaissé</span><span class="g" id="vEnc">0 F</span></div>
+        <div class="frow"><span>Reste dû</span><span id="vReste">1 428 570 F</span></div>
+      </div>
+      <span class="state" id="state">En attente</span>
+    </section>
+  </div></div>
+
+  <div id="cap"></div>
+
+  <div id="hook">
+    <div class="l" id="h1">Le devis,</div>
+    <div class="l" id="h2">vous le tapez</div>
+    <div class="l y" id="h3">encore le soir ?</div>
+  </div>
+
+  <div id="end">
+    <div class="logo" style="display:flex;align-items:center;justify-content:center"><svg width="66" height="66" viewBox="0 0 24 24" fill="none" stroke="#FFC400" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg></div>
+    <div class="brand" id="eBrand">Devis Vocal NC</div>
+    <div class="pitch" id="ePitch">Dictez votre devis sur le chantier. La TGC, les francs CFP et les communes d'ici compris.</div>
+    <div class="price" id="ePrice"><b>5 500 F</b>/mois ou <b>55 000 F</b>/an</div>
+    <div class="cta" id="eCta">Écrivez-nous en message privé.</div>
+  </div>
+</div>
+
+<script>
+/* ==================== Timeline (secondes) ==================== */
+const T = {
+  hookEnd: 2.6,
+  dictStart: 2.6, speakStart: 3.1, speakEnd: 7.7, dictEnd: 8.4,
+  devisIn: 8.4, capTgc: 11.2, envoiIn: 14.2, tapAt: 15.3, acceptAt: 16.7,
+  factIn: 18.4, endIn: 21.6, total: 25.0,
+};
+window.DURATION = T.total;
+
+const CAPTIONS = [
+  { a: 2.6,  b: 8.4,  lines: ['Vous le dictez', '<b>sur le chantier.</b>'] },
+  { a: 8.4,  b: 11.2, lines: ['Le devis sort', '<b>chiffré.</b>'] },
+  { a: 11.2, b: 14.2, lines: ['La TGC, les francs CFP', "et les communes d'ici", '<b>compris.</b>'] },
+  { a: 14.2, b: 18.4, lines: ['PDF prêt à envoyer.', 'Le client signe', '<b>à distance.</b>'] },
+  { a: 18.4, b: 21.6, lines: ['Ensuite, facture', 'et encaissement', '<b>suivis.</b>'] },
+];
+
+const SPEECH = "Chantier à Païta. Dalle béton armé 15 cm, 45 m². Mur en agglos de 20, 30 m². Enduit de façade gratté, 60 m².";
+
+/* ==================== Utilitaires ==================== */
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eOut = x => 1 - Math.pow(1 - x, 3);
+const eBack = x => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const fmt = n => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' F';
+const show = (el, on) => { el.style.display = on ? '' : 'none'; };
+const pop = (el, t, a, dur = 0.28, dy = 30) => {
+  const p = prog(t, a, a + dur);
+  el.style.opacity = p > 0 ? 1 : 0;
+  el.style.transform = `translateY(${(1 - eOut(p)) * dy}px) scale(${0.9 + 0.1 * eBack(p)})`;
+};
+
+/* ==================== Construction ==================== */
+const words = SPEECH.split(' ');
+const wave = $('wave');
+for (let i = 0; i < 26; i++) wave.appendChild(document.createElement('i'));
+const bars = [...wave.children];
+
+let lastCap = -1;
+function setCaption(t) {
+  const idx = CAPTIONS.findIndex(c => t >= c.a && t < c.b);
+  const cap = $('cap');
+  if (idx !== lastCap) {
+    cap.innerHTML = idx < 0 ? '' : CAPTIONS[idx].lines.map(l => `<div class="ln">${l}</div>`).join('');
+    lastCap = idx;
+  }
+  if (idx >= 0) {
+    [...cap.children].forEach((ln, i) => pop(ln, t, CAPTIONS[idx].a + i * 0.12, 0.22, 24));
+  }
+}
+
+function page(el, t, a, b) {
+  // slide-in horizontal façon navigation d'app
+  const inP = eOut(prog(t, a, a + 0.35));
+  const outP = eOut(prog(t, b, b + 0.35));
+  const vis = t >= a && t < b + 0.35;
+  show(el, vis);
+  if (vis) el.style.transform = `translateX(${(1 - inP) * 840 - outP * 840}px)`;
+}
+
+/* ==================== Rendu d'une image à l'instant t ==================== */
+window.render = function (t) {
+  // --- Accroche
+  const hook = $('hook');
+  show(hook, t < T.hookEnd);
+  if (t < T.hookEnd) {
+    pop($('h1'), t, -0.1, 0.25, 40);
+    pop($('h2'), t, 0.45, 0.25, 40);
+    pop($('h3'), t, 1.0, 0.3, 40);
+    const punch = 1 + 0.04 * (1 - eOut(prog(t, 1.0, 1.4))) * (t >= 1.0 ? 1 : 0);
+    hook.style.transform = `scale(${punch})`;
+  }
+
+  // --- Téléphone
+  const phone = $('phone');
+  show(phone, t >= T.dictStart && t < T.endIn);
+  const enter = eOut(prog(t, T.dictStart, T.dictStart + 0.4));
+  const zoom = 1.08 + 0.02 * prog(t, T.devisIn, T.envoiIn);
+  phone.style.transform = `translateY(${(1 - enter) * 700}px) scale(${zoom})`;
+  phone.style.transformOrigin = '50% 0%';
+
+  // --- Page dictée
+  page($('pDictee'), t, T.dictStart - 0.35, T.dictEnd);
+  const sp = prog(t, T.speakStart, T.speakEnd);
+  const n = Math.floor(sp * words.length + (sp > 0 ? 0.999 : 0));
+  $('trText').textContent = words.slice(0, Math.min(n, words.length)).join(' ');
+  $('trCur').style.opacity = (Math.floor(t * 2.5) % 2 === 0 || (t > T.speakStart && t < T.speakEnd)) ? 1 : 0;
+  const talking = t > T.speakStart && t < T.speakEnd;
+  bars.forEach((b, i) => {
+    const v = talking
+      ? 0.25 + 0.75 * Math.abs(Math.sin(t * 7.3 + i * 0.9) * Math.sin(t * 3.1 + i * 0.37) + 0.3 * Math.sin(t * 11 + i))
+      : 0.08;
+    b.style.height = (Math.min(1, v) * 110).toFixed(1) + 'px';
+  });
+  [$('ring1'), $('ring2')].forEach((r, k) => {
+    const ph = talking ? ((t * 0.9 + k * 0.5) % 1) : 1;
+    r.style.transform = `scale(${1 + ph * 0.8})`;
+    r.style.opacity = talking ? (1 - ph) * 0.9 : 0;
+  });
+  const secs = Math.floor(clamp(t - T.speakStart, 0, T.speakEnd - T.speakStart) + 1);
+  $('recT').textContent = t < T.speakEnd ? `Enregistrement 0:0${Math.min(9, t > T.speakStart ? secs : 0)}` : 'Chiffrage du devis…';
+  $('rec').querySelector('.dot').style.opacity = t < T.speakEnd ? (Math.floor(t * 2) % 2 ? 0.25 : 1) : 0;
+
+  // --- Page devis
+  page($('pDevis'), t, T.devisIn, T.envoiIn);
+  ['l1', 'l2', 'l3'].forEach((id, i) => pop($(id), t, T.devisIn + 0.35 + i * 0.4, 0.3, 40));
+  pop($('tot'), t, T.devisIn + 1.55, 0.3, 40);
+  const cnt = eOut(prog(t, T.devisIn + 1.6, T.devisIn + 2.5));
+  $('vHT').textContent = fmt(1287000 * cnt);
+  $('vTGC').textContent = fmt(141570 * cnt);
+  $('vTTC').textContent = fmt(1428570 * cnt);
+  [['chTgc', 0.2], ['chXpf', 0.6], ['chCommune', 1.0]].forEach(([id, d]) => {
+    const hl = $(id).querySelector('.hl');
+    const p = prog(t, T.capTgc + d, T.capTgc + d + 0.25);
+    hl.style.opacity = p > 0 ? 1 : 0;
+    hl.style.transform = `scale(${1.25 - 0.25 * eBack(p)})`;
+    $(id).style.background = p > 0.5 ? '#FFE7A0' : '#E6E8EC';
+  });
+
+  // --- Page envoi
+  page($('pEnvoi'), t, T.envoiIn, T.factIn);
+  const sent = t >= T.tapAt + 0.25, acc = t >= T.acceptAt;
+  $('s1').className = 'step' + (!sent ? ' on' : '');
+  $('s2').className = 'step' + (sent && !acc ? ' on' : '');
+  $('s3').className = 'step' + (acc ? ' ok' : '');
+  const tp = prog(t, T.tapAt, T.tapAt + 0.45);
+  const tap = $('tap');
+  tap.style.opacity = tp > 0 && tp < 1 ? (1 - tp) : 0;
+  tap.style.transform = `scale(${0.5 + tp * 4})`;
+  const btn = $('btn');
+  btn.style.visibility = acc ? 'hidden' : 'visible';
+  btn.style.transform = `scale(${t >= T.tapAt && t < T.tapAt + 0.15 ? 0.96 : 1})`;
+  const sg = $('signed');
+  show(sg, acc);
+  if (acc) {
+    sg.style.top = btn.offsetTop + 'px';
+    pop(sg, t, T.acceptAt, 0.3, 20);
+  }
+  const pdfIn = eOut(prog(t, T.envoiIn + 0.2, T.envoiIn + 0.6));
+  $('pdf').style.transform = `translateY(${(1 - pdfIn) * 60}px) rotate(${(1 - pdfIn) * -3}deg)`;
+  $('pdf').style.opacity = pdfIn;
+
+  // --- Page facture
+  page($('pFacture'), t, T.factIn, T.endIn + 1);
+  const pay = eOut(prog(t, T.factIn + 0.7, T.factIn + 1.9));
+  $('progBar').style.width = (pay * 100).toFixed(2) + '%';
+  $('vEnc').textContent = fmt(1428570 * pay);
+  $('vReste').textContent = fmt(1428570 * (1 - pay));
+  const paid = t >= T.factIn + 2.0;
+  const st = $('state');
+  st.textContent = paid ? 'Soldée' : 'En attente';
+  st.style.background = paid ? 'var(--vert)' : '#E6E8EC';
+  st.style.color = paid ? '#fff' : 'var(--gris)';
+  if (paid) pop(st, t, T.factIn + 2.0, 0.25, 10); else { st.style.opacity = 1; st.style.transform = 'none'; }
+
+  // --- Sous-titres
+  setCaption(t);
+
+  // --- Carton de fin
+  const end = $('end');
+  show(end, t >= T.endIn);
+  if (t >= T.endIn) {
+    pop(end.querySelector('.logo'), t, T.endIn, 0.3, 30);
+    pop($('eBrand'), t, T.endIn + 0.1, 0.3, 40);
+    pop($('ePitch'), t, T.endIn + 0.5, 0.3, 30);
+    pop($('ePrice'), t, T.endIn + 1.1, 0.3, 30);
+    pop($('eCta'), t, T.endIn + 1.6, 0.3, 30);
+  }
+};
+
+window.render(0);
+</script>
+</body>
+</html>
